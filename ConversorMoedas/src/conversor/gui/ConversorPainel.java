@@ -27,7 +27,7 @@ public class ConversorPainel extends JPanel {
 	private JTextArea textAreaDisplayResultado;
 	private JComboBox comboBoxMoedaOrigem;
 	private JComboBox comboBoxMoedaDestino;
-	private String[] moedas = { "BRL", "USD", "EUR", "GBP", "ARS" };
+	private String[] moedas = { "BRL", "USD", "EUR", "GBP", "ARS", "CLP" };
 
 	/**
 	 * Create the panel.
