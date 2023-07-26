@@ -40,65 +40,61 @@ public class ConversorPainel extends JPanel {
 		labelConversorMoedas.setFont(new Font("Tahoma", Font.BOLD, 12));
 		add(labelConversorMoedas);
 
-		JLabel lblNewLabel = new JLabel("Converter de:");
-		lblNewLabel.setBounds(10, 47, 122, 13);
+		JLabel lblNewLabel = new JLabel("é equivalente à:");
+		lblNewLabel.setBounds(10, 78, 122, 13);
 		add(lblNewLabel);
 
-		JLabel lblNewLabel_1 = new JLabel("para");
-		lblNewLabel_1.setBounds(10, 101, 45, 13);
-		add(lblNewLabel_1);
-
 		comboBoxMoedaOrigem = new JComboBox(moedas);
-		comboBoxMoedaOrigem.setBounds(10, 70, 86, 21);
+		comboBoxMoedaOrigem.setBounds(116, 47, 86, 21);
 		add(comboBoxMoedaOrigem);
 
 		comboBoxMoedaDestino = new JComboBox(moedas);
-		comboBoxMoedaDestino.setBounds(10, 124, 86, 21);
+		comboBoxMoedaDestino.setBounds(116, 110, 86, 21);
 		add(comboBoxMoedaDestino);
 
 		JLabel lblNewLabel_1_1 = new JLabel("valor:");
-		lblNewLabel_1_1.setBounds(106, 74, 45, 13);
+		lblNewLabel_1_1.setBounds(10, 35, 45, 13);
 		add(lblNewLabel_1_1);
 
 		JLabel lblNewLabel_1_1_1 = new JLabel("valor:");
-		lblNewLabel_1_1_1.setBounds(106, 128, 45, 13);
+		lblNewLabel_1_1_1.setBounds(10, 98, 45, 13);
 		add(lblNewLabel_1_1_1);
 
 		textFieldValorMoedaOrigem = new JTextField();
-		textFieldValorMoedaOrigem.setBounds(142, 71, 96, 19);
+		textFieldValorMoedaOrigem.setHorizontalAlignment(SwingConstants.RIGHT);
+		textFieldValorMoedaOrigem.setBounds(10, 48, 96, 19);
 		add(textFieldValorMoedaOrigem);
 		textFieldValorMoedaOrigem.setColumns(10);
 
 		textFieldValorMoedaDestino = new JTextField();
-		textFieldValorMoedaDestino.setBounds(142, 125, 96, 19);
+		textFieldValorMoedaDestino.setEditable(false);
+		textFieldValorMoedaDestino.setHorizontalAlignment(SwingConstants.RIGHT);
+		textFieldValorMoedaDestino.setBounds(10, 111, 96, 19);
 		add(textFieldValorMoedaDestino);
 		textFieldValorMoedaDestino.setColumns(10);
 
-		JLabel lblNewLabel_2 = new JLabel("Resultado");
-		lblNewLabel_2.setBounds(10, 155, 86, 13);
-		add(lblNewLabel_2);
-
 		textFieldTaxaConversaoOrigemDestino = new JTextField();
-		textFieldTaxaConversaoOrigemDestino.setBounds(331, 98, 96, 19);
+		textFieldTaxaConversaoOrigemDestino.setHorizontalAlignment(SwingConstants.RIGHT);
+		textFieldTaxaConversaoOrigemDestino.setBounds(233, 75, 96, 19);
 		add(textFieldTaxaConversaoOrigemDestino);
 		textFieldTaxaConversaoOrigemDestino.setColumns(10);
 
 		JLabel lblNewLabel_3 = new JLabel("Taxa de Conversão");
-		lblNewLabel_3.setBounds(189, 101, 132, 13);
+		lblNewLabel_3.setBounds(233, 61, 132, 13);
 		add(lblNewLabel_3);
 
 		JButton btnConverter = new JButton("Converter");
-		btnConverter.setBounds(222, 151, 111, 21);
+		btnConverter.setBounds(10, 161, 111, 21);
 		add(btnConverter);
 
 		JButton btnLimpar = new JButton("Limpar");
-		btnLimpar.setBounds(342, 151, 85, 21);
+		btnLimpar.setBounds(142, 161, 85, 21);
 		add(btnLimpar);
 
 		textAreaDisplayResultado = new JTextArea();
 		textAreaDisplayResultado.setEditable(false);
 		textAreaDisplayResultado.setText("TextArea para apresentar o resultado da operação");
-		textAreaDisplayResultado.setBounds(10, 189, 417, 62);
+		textAreaDisplayResultado.setBounds(10, 217, 417, 62);
 		add(textAreaDisplayResultado);
 
 		btnConverter.addActionListener(new ActionListener() {
@@ -118,15 +114,17 @@ public class ConversorPainel extends JPanel {
 		String moedaDestino;
 
 		try {
-			buscaTaxasConversao();
-			taxa = Float.valueOf(textFieldTaxaConversaoOrigemDestino.getText());
-			valorMoedaOrigem = Float.valueOf(textFieldValorMoedaOrigem.getText());
-			textFieldValorMoedaDestino.setText(String.valueOf(valorMoedaOrigem*taxa));;
 			moedaOrigem = moedas[comboBoxMoedaOrigem.getSelectedIndex()];
 			moedaDestino = moedas[comboBoxMoedaDestino.getSelectedIndex()];
+
+			buscaTaxasConversao(moedaOrigem, moedaDestino);
+			taxa = Float.valueOf(textFieldTaxaConversaoOrigemDestino.getText());
+			valorMoedaOrigem = Float.valueOf(textFieldValorMoedaOrigem.getText());
+			textFieldValorMoedaDestino.setText(String.valueOf(valorMoedaOrigem * taxa));
+			;
+
 			System.out.println("origem: " + moedaOrigem + " destino: " + moedaDestino);
 
-			
 		} catch (Exception e) {
 			textAreaDisplayResultado.setText(
 					" A taxa de conversão precisa ser um valor numérico,\n para o separador de casa decimal utilize o '.'");
@@ -141,31 +139,35 @@ public class ConversorPainel extends JPanel {
 		return jsonEmString;
 	}
 
-	public void buscaTaxasConversao() {
-		String urlParaChamada = "https://open.er-api.com/v6/latest/USD";
+	public void buscaTaxasConversao(String origem, String destino) {
+		String urlParaChamada = "https://open.er-api.com/v6/latest/" + origem;
 		int inicio;
 		int fim;
 		String texto = "";
+		if (origem == destino) {
+			textFieldTaxaConversaoOrigemDestino.setText("1.0");
+		} else {
+			try {
+				URL url = new URL(urlParaChamada);
+				HttpURLConnection conexao = (HttpURLConnection) url.openConnection();
 
-		try {
-			URL url = new URL(urlParaChamada);
-			HttpURLConnection conexao = (HttpURLConnection) url.openConnection();
+				if (conexao.getResponseCode() != 200)
+					throw new RuntimeException("HTTP error code : " + conexao.getResponseCode());
 
-			if (conexao.getResponseCode() != 200)
-				throw new RuntimeException("HTTP error code : " + conexao.getResponseCode());
+				BufferedReader resposta = new BufferedReader(new InputStreamReader((conexao.getInputStream())));
+				String jsonEmString = converteJsonEmString(resposta);
+				inicio = jsonEmString.indexOf(destino) + 5;
+				texto = jsonEmString.substring(inicio, jsonEmString.length());
+				System.out.println(texto);
+				fim = texto.indexOf(",");
+				System.out.println(Float.valueOf(texto.substring(0, fim)));
+				textFieldTaxaConversaoOrigemDestino.setText(texto.substring(0, fim));
 
-			BufferedReader resposta = new BufferedReader(new InputStreamReader((conexao.getInputStream())));
-			String jsonEmString = converteJsonEmString(resposta);
-			inicio = jsonEmString.indexOf("BRL") + 5;
-			texto = jsonEmString.substring(inicio, jsonEmString.length());
-			System.out.println(texto);
-			fim = texto.indexOf(",");
-			System.out.println(Float.valueOf(texto.substring(0, fim)) );
-			textFieldTaxaConversaoOrigemDestino.setText(texto.substring(0, fim));   
+			} catch (Exception e) {
+				System.out.println(e);
+			}
 
-		} catch (Exception e) {
-			System.out.println(e);
-		} 
+		}
 	}
 
 }
