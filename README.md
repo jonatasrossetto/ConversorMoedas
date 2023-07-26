@@ -1,11 +1,18 @@
 # ConversorMoedas
 
 Projeto em Java de um conversor de moedas
-Desenvolvido no curso de Java da Alura/ONE (Oracle Next Education)
+Desenvolvido no curso de Java da Alura/ONE T5 (Oracle Next Education)
 
-Como executar
+### Como compilar e executar na linha de comando
 
-25/07/2023
+No diretório src/conversor/gui compilar utilizando: <br>
+"javac -encoding UTF-8 \*.java" (garantindo a acentuação)
+
+Para executar, o programa utilize:<br>
+"java -cp /caminho/prodiretorio/src converor.gui.Teste
+
+### 25/07/2023
+
 O objetivo é implementar uma aplicação desktop utilizando a biblioteca de interface
 gráfica Swing do JAVA.
 Inicialmente a aplicação deverá realizar converões entre as seguintes moedas:
@@ -17,7 +24,7 @@ Inicialmente a aplicação deverá realizar converões entre as seguintes moedas
 - Peso argentino
 - Peso chileno
 
-26/07/2023
+### 26/07/2023
 
 - Incluído o listenner do botão Converter
 - Alterado o design do painel
