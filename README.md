@@ -3,6 +3,8 @@
 Projeto em Java de um conversor de moedas
 Desenvolvido no curso de Java da Alura/ONE (Oracle Next Education)
 
+Como executar
+
 25/07/2023
 O objetivo é implementar uma aplicação desktop utilizando a biblioteca de interface
 gráfica Swing do JAVA.
