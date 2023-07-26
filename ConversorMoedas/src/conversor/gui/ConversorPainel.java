@@ -5,6 +5,11 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,7 +94,7 @@ public class ConversorPainel extends JPanel {
 		JButton btnLimpar = new JButton("Limpar");
 		btnLimpar.setBounds(342, 151, 85, 21);
 		add(btnLimpar);
-		
+
 		textAreaDisplayResultado = new JTextArea();
 		textAreaDisplayResultado.setEditable(false);
 		textAreaDisplayResultado.setText("TextArea para apresentar o resultado da operação");
@@ -101,7 +106,7 @@ public class ConversorPainel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				realizaConversao();
 			};
-		}); 
+		});
 
 	}
 
@@ -111,21 +116,56 @@ public class ConversorPainel extends JPanel {
 		float valorMoedaDestino;
 		String moedaOrigem;
 		String moedaDestino;
-		
+
 		try {
-			taxa=Float.valueOf(textFieldTaxaConversaoOrigemDestino.getText());
+			buscaTaxasConversao();
+			taxa = Float.valueOf(textFieldTaxaConversaoOrigemDestino.getText());
 			valorMoedaOrigem = Float.valueOf(textFieldValorMoedaOrigem.getText());
-			valorMoedaDestino = Float.valueOf(textFieldValorMoedaDestino.getText());
+			textFieldValorMoedaDestino.setText(String.valueOf(valorMoedaOrigem*taxa));;
 			moedaOrigem = moedas[comboBoxMoedaOrigem.getSelectedIndex()];
 			moedaDestino = moedas[comboBoxMoedaDestino.getSelectedIndex()];
-			System.out.println("origem: "+moedaOrigem+" destino: "+moedaDestino);
-			textAreaDisplayResultado.setText("valor da moeda de origem: "+valorMoedaOrigem+"\nvalor da moeda de destino: "+valorMoedaDestino);
+			System.out.println("origem: " + moedaOrigem + " destino: " + moedaDestino);
+
 			
-			
-		} catch(Exception e) {
-			
-			textAreaDisplayResultado.setText(" A taxa de conversão precisa ser um valor numérico,\n para o separador de casa decimal utilize o '.'");
+		} catch (Exception e) {
+			textAreaDisplayResultado.setText(
+					" A taxa de conversão precisa ser um valor numérico,\n para o separador de casa decimal utilize o '.'");
 		}
-		
 	}
+
+	public String converteJsonEmString(BufferedReader buffereReader) throws IOException {
+		String resposta, jsonEmString = "";
+		while ((resposta = buffereReader.readLine()) != null) {
+			jsonEmString += resposta;
+		}
+		return jsonEmString;
+	}
+
+	public void buscaTaxasConversao() {
+		String urlParaChamada = "https://open.er-api.com/v6/latest/USD";
+		int inicio;
+		int fim;
+		String texto = "";
+
+		try {
+			URL url = new URL(urlParaChamada);
+			HttpURLConnection conexao = (HttpURLConnection) url.openConnection();
+
+			if (conexao.getResponseCode() != 200)
+				throw new RuntimeException("HTTP error code : " + conexao.getResponseCode());
+
+			BufferedReader resposta = new BufferedReader(new InputStreamReader((conexao.getInputStream())));
+			String jsonEmString = converteJsonEmString(resposta);
+			inicio = jsonEmString.indexOf("BRL") + 5;
+			texto = jsonEmString.substring(inicio, jsonEmString.length());
+			System.out.println(texto);
+			fim = texto.indexOf(",");
+			System.out.println(Float.valueOf(texto.substring(0, fim)) );
+			textFieldTaxaConversaoOrigemDestino.setText(texto.substring(0, fim));   
+
+		} catch (Exception e) {
+			System.out.println(e);
+		} 
+	}
+
 }
