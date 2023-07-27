@@ -35,13 +35,21 @@ Inicialmente a aplicação deverá realizar converões entre as seguintes moedas
   realiza uma manipulação da string do JSON isolando a taxa de conversão solicitada pelo
   usuário.
 
+### 27/07/2023
+
+- Resolvi reoorganizar o código criando a classe Moeda para cuidar apenas das informações pertinentes
+  a uma moeda. Como atributos a classe guarda além do código da moeda, o nome da moeda, as taxas de conversão e a data da última atualização das taxas de conversão. Além disso, a busca de dados na web é realizada apenas quando o construtor da classe é chamado. Precisa melhorar a inicialização da moeda incluindo um mecanismo de backup de dados em arquivo
+  para quando o sistema não tiver acesso a web por exemplo.
+- Criei também a classe ListaMoedas para tratar e gerenciar o conjunto de moedas que a aplicação irá utilizar.
+  A classe é construída a partir de um array de códigos de moedas e passa a ser responsável pela conversão entre
+  as diversas moedas da lista.
+
 A fazer:
 
 - o código precisa ser refatorado para melhorar a legibilidade e organização
-- funcionalidade para mostrar a data da taxa de câmbio utilizada
+
 - como o serviço web provê as taxas de cotação fechadas no dia anterior, seria interessante
   ter uma função que na inicialização do app busque novas cotações e armazene em um arquivo para
   evitar ter de fazer um novo request a cada solicitação de conversão por parte do usuário
 - melhorar o tratamento de erros através do uso de estruturas try/catch
-- implementar uma classe específica para armazenar as cotações diretamente do JSON com o auxílio
-  da biblioteca GSON.
+-

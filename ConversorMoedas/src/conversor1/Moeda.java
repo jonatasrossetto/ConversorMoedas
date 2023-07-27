@@ -123,6 +123,7 @@ public class Moeda {
 
 	}
 
+	//realiza a conversão do valor desta moeda para a moeda de destino
 	public float converte(float valor, String codigoMoedaDestino) {
 		if (this.codigo != null & codigoMoedaDestino.length() == 3) {
 			float resultado = this.getTaxaDeConversao(codigoMoedaDestino) * valor;
@@ -131,6 +132,7 @@ public class Moeda {
 		return -1.0f;
 	}
 	
+	//verifica se o código da moeda existe na ISO4217
 	public static boolean verificaCodigoMoeda(String codigo) {
 		try {
 			Currency currency = Currency.getInstance(codigo);
