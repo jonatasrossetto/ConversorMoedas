@@ -26,7 +26,7 @@ public class Moeda {
 			this.codigo = codigo;
 			this.nome = currency.getDisplayName();
 			this.dados = this.buscaDadosMoeda();
-			System.out.println(this.dados);
+//			System.out.println(this.dados);
 			this.dataUltimaAtualizacao = new Date(this.extraiDataUltimaAtualizacao() * 1000);
 			this.taxasConversao = this.extraiTaxasConversao();
 		} catch (Exception e) {
@@ -107,9 +107,9 @@ public class Moeda {
 				if (codigoMoedaDestino != this.codigo) {
 					int inicio = this.dados.indexOf(codigoMoedaDestino) + 5;
 					String aux = this.dados.substring(inicio);
-					System.out.println(aux);
+//					System.out.println(aux);
 					aux = aux.substring(0, aux.indexOf(","));
-					System.out.println(aux);
+//					System.out.println(aux);
 					return Float.valueOf(aux);
 				} else {
 					return 1.0f;
@@ -130,5 +130,15 @@ public class Moeda {
 		}
 		return -1.0f;
 	}
+	
+	public static boolean verificaCodigoMoeda(String codigo) {
+		try {
+			Currency currency = Currency.getInstance(codigo);
+			return true;
+		} catch(Exception e) {
+			return false;
+		}
+	}
+	
 
 }
