@@ -45,6 +45,7 @@ public class ConversorPainel extends JPanel {
 		add(lblNewLabel);
 
 		comboBoxMoedaOrigem = new JComboBox(moedas);
+		comboBoxMoedaOrigem.setSelectedIndex(1);
 		comboBoxMoedaOrigem.setBounds(116, 47, 86, 21);
 		add(comboBoxMoedaOrigem);
 
@@ -112,6 +113,7 @@ public class ConversorPainel extends JPanel {
 		float valorMoedaDestino;
 		String moedaOrigem;
 		String moedaDestino;
+		String time_last_update_utc;
 
 		try {
 			moedaOrigem = moedas[comboBoxMoedaOrigem.getSelectedIndex()];
@@ -121,7 +123,7 @@ public class ConversorPainel extends JPanel {
 			taxa = Float.valueOf(textFieldTaxaConversaoOrigemDestino.getText());
 			valorMoedaOrigem = Float.valueOf(textFieldValorMoedaOrigem.getText());
 			textFieldValorMoedaDestino.setText(String.valueOf(valorMoedaOrigem * taxa));
-			;
+//			time_last_update_utc = 
 
 			System.out.println("origem: " + moedaOrigem + " destino: " + moedaDestino);
 
@@ -162,6 +164,7 @@ public class ConversorPainel extends JPanel {
 				fim = texto.indexOf(",");
 				System.out.println(Float.valueOf(texto.substring(0, fim)));
 				textFieldTaxaConversaoOrigemDestino.setText(texto.substring(0, fim));
+				conexao.disconnect();
 
 			} catch (Exception e) {
 				System.out.println(e);

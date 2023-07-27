@@ -22,7 +22,7 @@ import javax.swing.SwingConstants;
 public class Teste {
 
 	public static void main(String[] args) {
-		System.out.println("teste is running!");
+		
 		JFrame f = new JFrame("frame");
 
 		ConversorPainel c = new ConversorPainel();
