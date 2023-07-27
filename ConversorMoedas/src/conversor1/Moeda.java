@@ -26,6 +26,7 @@ public class Moeda {
 			this.codigo = codigo;
 			this.nome = currency.getDisplayName();
 			this.dados = this.buscaDadosMoeda();
+			System.out.println(this.dados);
 			this.dataUltimaAtualizacao = new Date(this.extraiDataUltimaAtualizacao() * 1000);
 			this.taxasConversao = this.extraiTaxasConversao();
 		} catch (Exception e) {
