@@ -44,6 +44,18 @@ Inicialmente a aplicação deverá realizar converões entre as seguintes moedas
   A classe é construída a partir de um array de códigos de moedas e passa a ser responsável pela conversão entre
   as diversas moedas da lista.
 
+### 28/07/2023
+
+- Implementada uma nova classe de visualização, PainelPrincipal, utilizando a classe ListaMoedas no seu construtor.
+  Desta forma o aplicativo inicia buscando os dados das moedas e só então abre o painel de visualização.
+
+- Talvez seja interessante implementar um painel inicial informando que o sistema está buscando as informações
+  mais atualizadas na web (existe uma latência na busca das informações e o usuário pode achar que o aplicativo
+  não está funcionando)
+
+- necessário implementar uma estrutura de trycatch quando o listenner de conversão é acionado, para evitar crash
+  quando o usuário não entrar com dados numéricos no campo de valor da moeda de origem
+
 A fazer:
 
 - o código precisa ser refatorado para melhorar a legibilidade e organização

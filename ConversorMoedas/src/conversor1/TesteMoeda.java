@@ -20,17 +20,7 @@ public class TesteMoeda {
 		f.setSize(500, 400);
 		f.add(c);
 		f.setVisible(true);
-		
-		
-		
-//		listaMoedas.getListaDeMoedas();
-//		System.out.println(listaMoedas.getTaxaConversao("BRL", "CLP"));
-//		System.out.println(listaMoedas.converte(1000, "USD", "BRL"));
-		
-//		System.out.println(moeda.getCodigo());
-//		System.out.println(moeda.getTaxaDeConversao("USD"));
-//		System.out.println(moeda.converte(1000,"BRL"));
-//		System.out.println(moeda.getNome());
+
 	}
 
 }
