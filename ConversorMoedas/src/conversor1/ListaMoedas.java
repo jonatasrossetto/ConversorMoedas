@@ -12,10 +12,15 @@ public class ListaMoedas {
 		}
 	}
 
-	public void getListaDeMoedas() {
+	public String[] getListaDeMoedas() {
+		String[] moedas = new String[lista.size()];
+		int inc=0;
 		for (Moeda moeda : lista) {
-			System.out.println(moeda.getNome() + "\n");
+			moedas[inc] = moeda.getCodigo();
+			inc++;
+			
 		}
+		return moedas;
 	}
 
 	public float getTaxaConversao(String codigoMoedaOrigem, String codigoMoedaDestino) {
